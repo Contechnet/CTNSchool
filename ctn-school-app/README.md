@@ -1,5 +1,6 @@
-# Vue 3 + Vite
+Please install json-server: npm install -g json-server
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Then Start the Server: json-server --watch db.json --port 3000
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+If you want to kill json server you can run: npx kill-port 3000
+
