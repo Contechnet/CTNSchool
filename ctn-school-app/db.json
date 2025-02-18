@@ -4,61 +4,103 @@
       "id": "1",
       "name": "Mathematics",
       "teacher": 1,
-      "students": [1, 2, 3, 4]
+      "students": [
+        1,
+        2,
+        3,
+        4
+      ]
     },
     {
       "id": "2",
       "name": "Physics",
       "teacher": 2,
-      "students": [5, 6, 7, 8]
+      "students": [
+        5,
+        6,
+        7,
+        8
+      ]
     },
     {
       "id": "3",
       "name": "Biology",
       "teacher": 3,
-      "students": [9, 10, 11]
+      "students": [
+        9,
+        10,
+        11
+      ]
     },
     {
       "id": "4",
       "name": "Chemistry",
       "teacher": 4,
-      "students": [12, 13, 14]
+      "students": [
+        12,
+        13,
+        14
+      ]
     },
     {
       "id": "5",
       "name": "History",
       "teacher": 5,
-      "students": [15, 16, 17]
+      "students": [
+        15,
+        16,
+        17
+      ]
     },
     {
       "id": "6",
       "name": "English",
       "teacher": 6,
-      "students": [18, 19, 20]
+      "students": [
+        18,
+        19,
+        20
+      ]
     },
     {
-      "id": "4",
+      "id": "7",
       "name": "Computer Science",
-      "teacher": 7,
-      "students": [1, 5, 10]
+      "teacher": 4,
+      "students": [
+        1,
+        5,
+        10
+      ]
     },
     {
-      "id": "2",
+      "id": "8",
       "name": "Art",
-      "teacher": 8,
-      "students": [2, 7, 13]
+      "teacher": 2,
+      "students": [
+        2,
+        7,
+        13
+      ]
     },
     {
       "id": "9",
       "name": "Music",
       "teacher": 9,
-      "students": [3, 8, 14]
+      "students": [
+        3,
+        8,
+        14
+      ]
     },
     {
-      "id": "1",
+      "id": "10",
       "name": "Physical Education",
-      "teacher": 10,
-      "students": [4, 9, 15]
+      "teacher": 1,
+      "students": [
+        4,
+        9,
+        15
+      ]
     }
   ],
   "students": [
