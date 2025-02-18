@@ -1,0 +1,6 @@
+@import "vuetify/styles"; /* ✅ Forces Vuetify styles to load */
+
+body {
+  font-family: "Roboto", sans-serif; /* Ensure Vuetify fonts apply */
+  background-color: #f5f5f5;
+}
