@@ -18,7 +18,10 @@
               <v-text-field
                 v-model="password"
                 label="Password"
-                type="password"
+                :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+                :type="visible ? 'text' : 'password'"
+                placeholder="Enter your password"
+                @click:append-inner="visible = !visible"
                 outlined
                 dense
                 required
@@ -30,9 +33,7 @@
               }}</v-alert>
             </v-col>
             <v-col cols="12" class="d-flex justify-center">
-              <v-btn type="submit" color="primary" class="mt-4"
-                >Login</v-btn
-              >
+              <v-btn type="submit" color="primary" class="mt-4">Login</v-btn>
             </v-col>
           </v-row>
         </v-form>
@@ -48,6 +49,8 @@ import { useRouter } from "vue-router";
 
 const username = ref("");
 const password = ref("");
+const visible = ref(false);
+
 const errorMessage = ref(null);
 const authStore = useAuthStore();
 const router = useRouter();
