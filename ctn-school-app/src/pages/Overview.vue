@@ -5,12 +5,13 @@
       <v-card-text>
         <v-data-table :headers="headers" :items="classes" item-value="id">
           <template v-slot:[`item.teacher`]="{ item }">
-            {{ item.teacher.name }}
+            {{ `${item.teacher.firstName} ${item.teacher.lastName}` }}
           </template>
 
           <template v-slot:[`item.students`]="{ item }">
             <span v-for="(student, index) in item.students" :key="student.id">
-              {{ student.firstname
+            {{ `${student.firstName} ${student.lastName}` }}
+            {{  
               }}<span v-if="index < item.students.length - 1">, </span>
             </span>
           </template>

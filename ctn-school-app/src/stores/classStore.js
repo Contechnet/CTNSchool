@@ -17,9 +17,11 @@ export const useClassStore = defineStore("classStore", {
 
         const students = studentResponse.data;
         const teachers = teacherResponse.data;
+        // const classes = classResponse.data;
 
-        console.log(students);
-        console.log(teachers);
+        // console.log(students);
+        // console.log(teachers);
+        // console.log(classes);
 
         // Map class data to include full teacher and student details
         this.classes = classResponse.data.map((cls) => ({
