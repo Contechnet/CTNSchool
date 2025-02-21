@@ -9,7 +9,29 @@
       </v-card-title>
 
       <v-card-text>
-        <v-data-table :headers="headers" :items="classes" item-value="id">
+        <v-data-table
+          :headers="headers"
+          :items="classes"
+          item-value="id"
+          items-per-page="5"
+          :items-per-page-options="itemsPerPage"
+        >
+          <template v-slot:[`item.teacher`]="{ item }">
+            <template v-if="item?.teacher?.id">
+              <span
+                v-for="(info, key, index) in item.teacher"
+                :key="index + 'teacher'"
+              >
+                {{ `${key} : ${info ? info : "---"}` }}
+                <span v-if="index < Object.keys(item.teacher).length - 1">
+                  ,
+                </span>
+              </span>
+            </template>
+            <template v-else>
+              <span> N/A </span>
+            </template>
+          </template>
           <template v-slot:[`item.actions`]="{ item }">
             <v-btn color="red" icon @click="deleteClass(item.id)">
               <v-icon>mdi-delete</v-icon>
@@ -57,6 +79,14 @@ const headers = [
   { title: "Teacher", key: "teacher" },
   { title: "Actions", key: "actions", sortable: false },
 ];
+const itemsPerPage = ref([
+  { value: 5, title: "5" },
+  { value: 10, title: "10" },
+  { value: 25, title: "25" },
+  { value: 50, title: "50" },
+  { value: 100, title: "100" },
+  { value: -1, title: "$vuetify.dataFooter.itemsPerPageAll" },
+]);
 
 onMounted(async () => {
   await classStore.fetchClasses();
@@ -69,7 +99,6 @@ const addClass = async () => {
   newClass.value = { name: "", teacher: "" };
   showDialog.value = false;
 };
-
 const deleteClass = async (id) => {
   await classStore.deleteClass(id);
 };

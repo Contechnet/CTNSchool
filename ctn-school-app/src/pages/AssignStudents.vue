@@ -14,12 +14,32 @@
 
         <v-select
           v-model="selectedStudents"
-          :items="students"
-          item-title="name"
+          :items="unassignedStudents"
+          :readonly="!selectedClass"
+          item-title="firstName"
           item-value="id"
           label="Select Students"
           multiple
-        ></v-select>
+        >
+          <template v-slot:item="{ props, item }">
+            <v-list-item
+              v-bind="props"
+              :title="`${item.raw.firstName} ${item.raw.lastName}`"
+            ></v-list-item>
+          </template>
+
+          <template v-slot:selection="{ item, index }">
+            <v-chip v-if="index < 10">
+              <span> {{ `${item.raw.firstName} ${item.raw.lastName}` }}</span>
+            </v-chip>
+            <span
+              v-if="index === 10"
+              class="text-grey text-caption align-self-center"
+            >
+              (+{{ selectedStudents.length - 10 }} others)
+            </span>
+          </template>
+        </v-select>
 
         <v-btn color="primary" class="mt-2" @click="assignStudents"
           >Assign</v-btn
@@ -30,7 +50,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useClassStore } from "../stores/classStore";
 import { useStudentStore } from "../stores/studentStore";
 
@@ -51,7 +71,13 @@ onMounted(async () => {
 
 const assignStudents = async () => {
   if (!selectedClass.value || selectedStudents.value.length === 0) return;
-  await classStore.assignStudents(selectedClass.value, selectedStudents.value);
+  await classStore.assignStudents({
+    classId: selectedClass.value,
+    selectedStudents: selectedStudents.value,
+  });
   selectedStudents.value = [];
 };
+const unassignedStudents = computed(() =>
+  students.value.filter((std) => !std.classes.length)
+);
 </script>

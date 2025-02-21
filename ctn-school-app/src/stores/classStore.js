@@ -42,5 +42,36 @@ export const useClassStore = defineStore("classStore", {
         console.error("Error fetching classes:", error);
       }
     },
+    // Add a new student with auto-incremented ID
+    async assignStudents(studentDetails) {
+      try {
+        const response = await axios.get(
+          `${API_URL}/classes/${studentDetails.classId}`
+        );
+        const currentClass = response.data;
+        const updatedClass = {
+          ...currentClass,
+          students: [
+            ...currentClass.students,
+            ...studentDetails.selectedStudents,
+          ],
+        };
+        console.log(updatedClass);
+        // Create the new student object with auto-incremented ID
+        // const studentData = { id: newId, ...newStudent };
+
+        // // Send POST request to add the student
+        // const postResponse = await axios.post(`${API_URL}/students`, studentData, {
+        //   headers: { "Content-Type": "application/json" },
+        // });
+
+        // if (postResponse.status === 201) {
+        //   this.students.push(postResponse.data); // Update local state
+        //   console.log("Student added successfully:", postResponse.data);
+        // }
+      } catch (error) {
+        console.error("Error adding student to class:", error);
+      }
+    },
   },
 });

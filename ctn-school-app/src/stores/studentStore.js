@@ -12,7 +12,15 @@ export const useStudentStore = defineStore("studentStore", {
     async fetchStudents() {
       try {
         const response = await axios.get(`${API_URL}/students`);
-        this.students = response.data;
+        const classResponse = await axios.get(`${API_URL}/classes`);
+
+        this.students = response.data.map((std) => {
+          const studentClasses = classResponse.data.filter(cls => cls.students.includes(+std.id));
+          const classNames = studentClasses.map(cls => cls.name);
+          return { ...std, classes: classNames }
+        });
+        // this.students = response.data;
+
       } catch (error) {
         console.error("Error fetching students:", error);
       }

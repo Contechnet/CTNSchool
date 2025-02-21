@@ -9,7 +9,29 @@
       </v-card-title>
 
       <v-card-text>
-        <v-data-table :headers="headers" :items="students" item-value="id" />
+        <v-data-table
+          :headers="headers"
+          items-per-page="5"
+          :items-per-page-options="itemsPerPage"
+          :items="students"
+          item-value="id"
+        >
+          <template v-slot:[`item.name`]="{ item }">
+            {{ `${item.firstName} ${item.lastName}` }}
+          </template>
+          <template v-slot:[`item.classes`]="{ item }">
+            <div class="d-flex justify-start ga-2">
+              <v-chip
+                text
+                dense
+                v-for="(cls, index) in item.classes"
+                :key="index + 'classes'"
+              >
+                {{ cls }}
+              </v-chip>
+            </div>
+          </template>
+        </v-data-table>
       </v-card-text>
     </v-card>
 
@@ -39,8 +61,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
-
   </v-container>
 </template>
 
@@ -51,23 +71,35 @@ import { useStudentStore } from "../stores/studentStore";
 const studentStore = useStudentStore();
 const students = ref([]);
 const showDialog = ref(false);
-const newStudent = ref({ firstName: "", lastName: "" , email:""});
+const newStudent = ref({ firstName: "", lastName: "", email: "" });
 
 const headers = [
-  { title: "ID", key: "id" },
+  // { title: "ID", key: "id" },
   { title: "Name", key: "name" },
+  { title: "Classes", key: "classes" },
 ];
-
+const itemsPerPage = ref([
+  { value: 5, title: "5" },
+  { value: 10, title: "10" },
+  { value: 25, title: "25" },
+  { value: 50, title: "50" },
+  { value: 100, title: "100" },
+  { value: -1, title: "$vuetify.dataFooter.itemsPerPageAll" },
+]);
 onMounted(async () => {
   await studentStore.fetchStudents();
   students.value = studentStore.students;
 });
 
 const addStudent = async () => {
-  if (!newStudent.value.firstName || !newStudent.value.lastName|| !newStudent.value.email) return;
+  if (
+    !newStudent.value.firstName ||
+    !newStudent.value.lastName ||
+    !newStudent.value.email
+  )
+    return;
   await studentStore.addStudent(newStudent.value);
-  newStudent.value = { firstName: "", lastName: "", email:"" };
+  newStudent.value = { firstName: "", lastName: "", email: "" };
   showDialog.value = false;
 };
-
 </script>
