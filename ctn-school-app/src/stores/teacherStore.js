@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import { push } from 'notivue'
 
 const API_URL = import.meta.env.VITE_API_URL;
 
