@@ -5,8 +5,20 @@
 /*This is for the logo*/
 $box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.08);
 
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+    background-color: transparent !important;
+    box-shadow: 0 0 0px 1000px white inset !important;
+}
+
 .bg-color {
     background-color: #fafafa !important;
+}
+
+.v-input {
+    .v-input__details {
+        padding-inline: 0;
+    }
 }
 
 .outlined {

@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { useAuthStore } from "../stores/authStore";
 
-const Login = () => import('@/pages/Login.vue')
+// const Login = () => import('@/pages/Login.vue')
+const Login = () => import('@/pages/LoginPage.vue')
 const Overview = () => import('@/pages/Overview.vue')
 const Students = () => import('@/pages/Students.vue')
 const Teachers = () => import('@/pages/Teachers.vue')
