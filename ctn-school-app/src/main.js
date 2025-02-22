@@ -2,6 +2,7 @@
 import { registerPlugins } from '@/plugins'
 
 import App from './App.vue'
+import '@/scss/style.scss';
 
 import { createApp } from 'vue'
 

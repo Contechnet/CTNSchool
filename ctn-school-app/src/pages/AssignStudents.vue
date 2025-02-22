@@ -1,27 +1,31 @@
 <template>
   <v-container>
-    <v-card>
-      <v-card-title>Assign Students to Classes</v-card-title>
+    <v-row class="pa-5">
+      <v-col cols="12" md="12">
+        <ParentCard title="Assign Students to Class">
+          <v-form @submit.prevent="assignStudents" ref="formStudent">
+            <v-select
+              v-model="selectedClass"
+              :items="classes"
+              item-title="name"
+              :rules="rules.required"
+              required
+              item-value="id"
+              label="Select Class"
+            ></v-select>
 
-      <v-card-text>
-        <v-select
-          v-model="selectedClass"
-          :items="classes"
-          item-title="name"
-          item-value="id"
-          label="Select Class"
-        ></v-select>
-
-        <v-select
-          v-model="selectedStudents"
-          :items="unassignedStudents"
-          :readonly="!selectedClass"
-          item-title="firstName"
-          item-value="id"
-          label="Select Students"
-          multiple
-        >
-          <template v-slot:item="{ props, item }">
+            <v-select
+              v-model="selectedStudents"
+              :items="unassignedStudents"
+              item-title="name"
+              :rules="rules.selectRules"
+              chips
+              required
+              item-value="id"
+              label="Select Students"
+              multiple
+            >
+              <!-- <template v-slot:item="{ props, item }">
             <v-list-item
               v-bind="props"
               :title="`${item.raw.firstName} ${item.raw.lastName}`"
@@ -38,14 +42,14 @@
             >
               (+{{ selectedStudents.length - 10 }} others)
             </span>
-          </template>
-        </v-select>
+          </template> -->
+            </v-select>
 
-        <v-btn color="primary" class="mt-2" @click="assignStudents"
-          >Assign</v-btn
-        >
-      </v-card-text>
-    </v-card>
+            <v-btn color="primary" type="submit" class="mt-2">Assign</v-btn>
+          </v-form>
+        </ParentCard>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -53,10 +57,12 @@
 import { ref, onMounted, computed } from "vue";
 import { useClassStore } from "../stores/classStore";
 import { useStudentStore } from "../stores/studentStore";
+import ParentCard from "@/components/ParentCard.vue";
 
 const classStore = useClassStore();
 const studentStore = useStudentStore();
 
+const formStudent = ref(null);
 const classes = ref([]);
 const students = ref([]);
 const selectedClass = ref(null);
@@ -70,14 +76,32 @@ onMounted(async () => {
 });
 
 const assignStudents = async () => {
-  if (!selectedClass.value || selectedStudents.value.length === 0) return;
-  await classStore.assignStudents({
+  const { valid } = await formStudent.value.validate();
+  if (!valid) return;
+  await studentStore.assignStudents({
     classId: selectedClass.value,
     selectedStudents: selectedStudents.value,
   });
-  selectedStudents.value = [];
+  await studentStore.fetchStudents();
+  students.value = studentStore.students;
+  formStudent.value.reset();
 };
+
 const unassignedStudents = computed(() =>
-  students.value.filter((std) => !std.classes.length)
+  students.value
+    .filter((std) => !std.classes.length)
+    .map((stdDetails) => ({
+      name: `${stdDetails.firstName} ${stdDetails.lastName}`,
+      id: stdDetails.id,
+    }))
 );
+
+const rules = computed(() => {
+  return {
+    required: [(v) => !!v || "This field is required"],
+    selectRules: [
+      (v) => (!!v && v.length > 0) || "You must select at least one student.",
+    ],
+  };
+});
 </script>

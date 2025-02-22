@@ -1,28 +1,30 @@
 <template>
   <v-container>
-    <v-card>
-      <v-card-title>Teachers</v-card-title>
-      <v-card-text>
-        <v-data-table
-          items-per-page="5"
-          :items-per-page-options="itemsPerPage"
-          :headers="headers"
-          :items="teachers"
-          item-value="id"
-        >
-          <template v-slot:[`item.name`]="{ item }">
-            {{ `${item.firstName} ${item.lastName}` }}
-          </template>
-          <template v-slot:[`item.dob`]="{ item }">
-            {{ formatDate(item.dob) }}
-          </template>
-        </v-data-table>
-      </v-card-text>
-    </v-card>
+    <v-row class="pa-5">
+      <v-col cols="12" md="12">
+        <ParentCard title="Teachers">
+          <v-data-table
+            :items-per-page-options="itemsPerPage"
+            :headers="headers"
+            :items="teachers"
+            height="600"
+            item-value="id"
+          >
+            <template v-slot:[`item.name`]="{ item }">
+              {{ `${item.firstName} ${item.lastName}` }}
+            </template>
+            <template v-slot:[`item.dob`]="{ item }">
+              {{ formatDate(item.dob) }}
+            </template>
+          </v-data-table>
+        </ParentCard>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script setup>
+import ParentCard from "@/components/ParentCard.vue";
 import { format } from "date-fns";
 import { onMounted, ref } from "vue";
 import { useTeacherStore } from "../stores/teacherStore";
