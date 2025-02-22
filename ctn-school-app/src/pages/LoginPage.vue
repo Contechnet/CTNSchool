@@ -1,8 +1,3 @@
-<script setup lang="ts">
-import Logo from '@/components/Logo.vue';
-import AuthLogin from '@/components/AuthLogin.vue';
-</script>
-
 <template>
   <v-row class="bg-background position-relative" no-gutters>
     <v-col cols="12">
@@ -13,7 +8,10 @@ import AuthLogin from '@/components/AuthLogin.vue';
     <!---Login Part-->
     <v-col cols="12" lg="12" class="d-flex align-center">
       <v-container>
-        <div class="d-flex align-center justify-center" style="min-height: calc(100vh - 148px)">
+        <div
+          class="d-flex align-center justify-center"
+          style="min-height: calc(100vh - 148px)"
+        >
           <v-row justify="center">
             <v-col cols="12" md="12">
               <v-card elevation="0" class="loginBox">
@@ -32,6 +30,10 @@ import AuthLogin from '@/components/AuthLogin.vue';
     </v-col>
   </v-row>
 </template>
+<script setup>
+import Logo from "@/components/Logo.vue";
+import AuthLogin from "@/components/AuthLogin.vue";
+</script>
 <style lang="scss">
 .loginBox {
   max-width: 450px;

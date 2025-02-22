@@ -1,7 +1,6 @@
 <template>
   <v-navigation-drawer
     app
-    cl
     left
     v-model="appStore.sidebar_drawer"
     elevation="0"

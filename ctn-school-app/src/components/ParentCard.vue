@@ -2,9 +2,9 @@
   <v-card elevation="0" class="bg-surface outlined">
     <v-card-item>
       <div class="d-sm-flex align-center justify-space-between">
-        <v-card-title class="text-h6" style="line-height: 1.57">{{
-          props.title
-        }}</v-card-title>
+        <v-card-title class="text-h6" style="line-height: 1.57">
+          {{ props.title }}</v-card-title
+        >
         <slot name="action"></slot>
       </div>
     </v-card-item>

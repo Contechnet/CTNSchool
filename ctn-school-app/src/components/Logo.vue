@@ -28,7 +28,6 @@
         />
         <line x1="8" y1="5" x2="8" y2="25" stroke="black" stroke-width="1" />
 
-        <!-- Text: "School" moved further right -->
         <text x="40" y="22" font-family="Arial" font-size="18" fill="black">
           School
         </text>
