@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <Sidebar />
-    <Header />
+    <Sidebar v-if="authStore.isAuthenticated" />
+    <Header v-if="authStore.isAuthenticated" />
 
     <v-main class="page-wrapper">
       <router-view />
@@ -16,6 +16,9 @@
 import Sidebar from "../components/Sidebar.vue";
 import Header from "../components/Header.vue";
 import { Notivue, Notification, push } from "notivue";
+import { useAuthStore } from "../stores/authStore";
+
+const authStore = useAuthStore();
 </script>
 <style lang="scss">
 .notification {

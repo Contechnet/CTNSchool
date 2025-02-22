@@ -34,7 +34,7 @@
               <img src="@/assets/avatar.png" alt="user" />
             </v-avatar>
             <h6 class="text-subtitle-1 mb-0 d-sm-block font-weight-bold d-none">
-              {{ authStore.user.login }}
+              {{ authStore.user?.login }}
             </h6>
           </div>
         </v-btn>
@@ -46,7 +46,7 @@
               <img src="@/assets/avatar.png" alt="user" width="32" />
             </v-avatar>
             <div>
-              <h6 class="text-h6 mb-0">{{ authStore.user.login }}</h6>
+              <h6 class="text-h6 mb-0">{{ authStore.user?.login }}</h6>
               <!-- <p class="text-caption mb-0">UI/UX Designer</p> -->
             </div>
             <div class="ml-auto">
