@@ -60,7 +60,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onBeforeMount } from "vue";
 import { useAuthStore } from "@/stores/authStore";
 import { useRouter } from "vue-router";
 
@@ -76,17 +76,23 @@ const authStore = useAuthStore();
 const router = useRouter();
 
 const handleLogin = async () => {
-  loader.value = true;
-  errorMessage.value = null; // Reset error message
-  const success = await authStore.login(username.value, password.value);
-  if (success) {
-    router.push("/overview");
-  } else {
-    errorMessage.value = "Invalid username or password.";
+  try {
+    loader.value = true;
+    errorMessage.value = null; // Reset error message
+    setTimeout(async () => {
+      const success = await authStore.login(username.value, password.value);
+      if (success) {
+        router.push("/overview");
+      } else {
+        errorMessage.value = "Invalid username or password.";
+        loader.value = false;
+      }
+    }, 500);
+  } catch (error) {
+    loader.value = false;
   }
-  loader.value = false;
 };
-onMounted(async () => {
+onBeforeMount(async () => {
   if (authStore.user?.id) {
     router.push("/overview");
   }
