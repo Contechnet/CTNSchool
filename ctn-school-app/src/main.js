@@ -1,23 +1,13 @@
-import { createApp } from "vue";
-import { createVuetify } from "vuetify";
-import "vuetify/styles"; // ✅ Ensure styles are imported
-import * as components from "vuetify/components"; // ✅ Register components manually
-import * as directives from "vuetify/directives"; // ✅ Register directives manually
+// Plugins
+import { registerPlugins } from '@/plugins'
 
-import App from "./App.vue";
-import router from "./router";
-import { createPinia } from "pinia";
+import App from './App.vue'
+import '@/scss/style.scss';
 
-const vuetify = createVuetify({
-  components, // ✅ Explicitly add components
-  directives, // ✅ Explicitly add directives
-  theme: {
-    defaultTheme: "light",
-  },
-});
+import { createApp } from 'vue'
 
-const app = createApp(App);
-app.use(vuetify);
-app.use(createPinia());
-app.use(router);
-app.mount("#app");
+const app = createApp(App)
+
+registerPlugins(app)
+
+app.mount('#app')

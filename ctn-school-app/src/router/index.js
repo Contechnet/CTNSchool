@@ -1,13 +1,15 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Login from "../pages/Login.vue";
-import Overview from "../pages/Overview.vue";
-import Students from "../pages/Students.vue";
-import Teachers from "../pages/Teachers.vue";
-import Classes from "../pages/Classes.vue";
-import AssignStudents from "../pages/AssignStudents.vue";
-import AssignTeachers from "../pages/AssignTeachers.vue";
 import { useAuthStore } from "../stores/authStore";
-import MainLayout from "../layouts/MainLayout.vue";
+
+// const Login = () => import('@/pages/Login.vue')
+const Login = () => import('@/pages/LoginPage.vue')
+const Overview = () => import('@/pages/Overview.vue')
+const Students = () => import('@/pages/Students.vue')
+const Teachers = () => import('@/pages/Teachers.vue')
+const Classes = () => import('@/pages/Classes.vue')
+const AssignStudents = () => import('@/pages/AssignStudents.vue')
+const AssignTeachers = () => import('@/pages/AssignTeachers.vue')
+const MainLayout = () => import('@/layouts/MainLayout.vue')
 
 const routes = [
   { path: "/", redirect: "/login" },
@@ -28,7 +30,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 });
 

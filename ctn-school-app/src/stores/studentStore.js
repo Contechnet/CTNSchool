@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import { push } from 'notivue'
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -12,12 +13,47 @@ export const useStudentStore = defineStore("studentStore", {
     async fetchStudents() {
       try {
         const response = await axios.get(`${API_URL}/students`);
-        this.students = response.data;
+        const classResponse = await axios.get(`${API_URL}/classes`);
+
+        this.students = response.data.map((std) => {
+          const studentClasses = classResponse.data.filter(cls => cls.students.includes(+std.id));
+          const classNames = studentClasses.map(cls => cls.name);
+          return { ...std, classes: classNames }
+        });
+        // this.students = response.data;
+
       } catch (error) {
         console.error("Error fetching students:", error);
       }
     },
+    async assignStudents(studentDetails) {
+      try {
+        const response = await axios.get(
+          `${API_URL}/classes/${studentDetails.classId}`
+        );
+        const currentClass = response.data;
+        const updatedClass = {
+          ...currentClass,
+          students: [
+            ...currentClass.students.map(e => +e),
+            ...studentDetails.selectedStudents.map(e => +e)
+          ],
+        };
 
+        // Send POST request to add the student
+        const updatedClassRes = await axios.patch(`${API_URL}/classes/${studentDetails.classId}`, updatedClass, {
+          headers: { "Content-Type": "application/json" },
+        });
+
+        if (updatedClassRes.status === 200) {
+          push.success('Students have been successfully assigned to the class!');
+          // console.log("Student successfully assigned", updatedClassRes.data);
+        }
+      } catch (error) {
+        push.error('Something went wrong. Please try again later.')
+        console.error("Error adding student to class:", error);
+      }
+    },
     // Add a new student with auto-incremented ID
     async addStudent(newStudent) {
       try {
@@ -42,9 +78,12 @@ export const useStudentStore = defineStore("studentStore", {
 
         if (postResponse.status === 201) {
           this.students.push(postResponse.data); // Update local state
-          console.log("Student added successfully:", postResponse.data);
+          // console.log("Student added successfully:", postResponse.data);
+          push.success('Student has been added successfully!');
+
         }
       } catch (error) {
+        push.error('Something went wrong. Please try again later.')
         console.error("Error adding student:", error);
       }
     },

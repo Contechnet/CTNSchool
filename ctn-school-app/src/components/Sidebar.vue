@@ -1,36 +1,37 @@
 <template>
-  <v-navigation-drawer app>
-    <v-list>
-      <!-- Menu Items -->
-      <v-list-item
-        v-for="item in menuItems"
-        :key="item.text"
-        :to="item.route"
-        link
-      >
-        <v-list-item-icon>
-          <v-icon>{{ item.icon }}</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title>{{ item.text }}</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
-
-    <v-spacer></v-spacer>
-    <!-- Push logout button to bottom -->
-
-    <!-- Logout Button -->
-    <v-list>
-      <v-list-item @click="handleLogout">
-        <v-list-item-icon>
-          <v-icon color="red">mdi-logout</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title class="text-red">Logout</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
+  <v-navigation-drawer
+    app
+    left
+    v-model="appStore.sidebar_drawer"
+    elevation="0"
+    rail-width="60"
+    mobile-breakpoint="lg"
+    class="leftSidebar bg-color"
+    :rail="appStore.mini_sidebar"
+    expand-on-hover
+  >
+    <div class="pa-4">
+      <Logo />
+    </div>
+    <!-- Menu Items -->
+    <perfect-scrollbar class="scrollnavbar">
+      <v-list density="compact" nav>
+        <v-list-item
+          v-for="item in menuItems"
+          :key="item.text"
+          :to="item.route"
+          link
+        >
+          <template v-slot:prepend>
+          <v-icon :icon="item.icon"></v-icon>
+        </template>
+          <v-list-item-title
+            class="font-weight-bold text-caption"
+            v-text="item.text"
+          ></v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </perfect-scrollbar>
   </v-navigation-drawer>
 </template>
 
@@ -38,9 +39,12 @@
 import { ref } from "vue";
 import { useAuthStore } from "../stores/authStore";
 import { useRouter } from "vue-router";
+import { useAppStore } from "../stores/appStore";
+import Logo from "../components/Logo.vue";
 
 const authStore = useAuthStore();
 const router = useRouter();
+const appStore = useAppStore();
 
 const menuItems = ref([
   { text: "Overview", route: "/overview", icon: "mdi-view-dashboard" },

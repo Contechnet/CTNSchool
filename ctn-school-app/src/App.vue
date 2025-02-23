@@ -4,8 +4,4 @@
   </v-app>
 </template>
 
-<script setup>
-import { useAuthStore } from "./stores/authStore";
-
-const authStore = useAuthStore();
-</script>
+<script setup></script>
